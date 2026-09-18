@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAGAR GOWDA H | AI & ML Cyber-Engineer</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        cyber: {
+                            bg: '#05050a',
+                            card: '#0c0f1d',
+                            border: '#1e294b',
+                            cyan: '#00f0ff',
+                            magenta: '#ff007f',
+                            purple: '#8b5cf6',
+                            yellow: '#fde047'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    },
+                    boxShadow: {
+                        'neon-cyan': '0 0 20px rgba(0, 240, 255, 0.3)',
+                        'neon-magenta': '0 0 20px rgba(255, 0, 127, 0.3)',
+                        'neon-purple': '0 0 20px rgba(139, 92, 246, 0.3)',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            background-color: #05050a;
+            color: #f8fafc;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Matrix/Cyber Canvas Background */
+        #matrix-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.15;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #05050a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e294b;
+            border-radius: 4px;
+            border: 1px solid #00f0ff;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00f0ff;
+        }
+
+        /* Glitch Effect */
+        .glitch {
+            position: relative;
+            display: inline-block;
+        }
+        .glitch::before, .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .glitch::before {
+            left: 2px;
+            text-shadow: -2px 0 #ff007f;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+        .glitch::after {
+            left: -2px;
+            text-shadow: -2px 0 #00f0ff, 0 2px #ff007f;
+            clip: rect(85px, 450px, 140px, 0);
+            animation: glitch-anim2 5s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(31px, 9999px, 94px, 0); }
+            10% { clip: rect(112px, 9999px, 76px, 0); }
+            20% { clip: rect(85px, 9999px, 5px, 0); }
+            30% { clip: rect(27px, 9999px, 119px, 0); }
+            40% { clip: rect(64px, 9999px, 29px, 0); }
+            50% { clip: rect(130px, 9999px, 110px, 0); }
+            60% { clip: rect(12px, 9999px, 98px, 0); }
+            70% { clip: rect(90px, 9999px, 140px, 0); }
+            80% { clip: rect(40px, 9999px, 62px, 0); }
+            90% { clip: rect(77px, 9999px, 15px, 0); }
+            100% { clip: rect(55px, 9999px, 112px, 0); }
+        }
+        @keyframes glitch-anim2 {
+            0% { clip: rect(76px, 9999px, 11px, 0); }
+            10% { clip: rect(22px, 9999px, 140px, 0); }
+            20% { clip: rect(110px, 9999px, 45px, 0); }
+            30% { clip: rect(4px, 9999px, 90px, 0); }
+            40% { clip: rect(89px, 9999px, 122px, 0); }
+            50% { clip: rect(15px, 9999px, 60px, 0); }
+            60% { clip: rect(102px, 9999px, 134px, 0); }
+            70% { clip: rect(33px, 9999px, 19px, 0); }
+            80% { clip: rect(67px, 9999px, 105px, 0); }
+            90% { clip: rect(120px, 9999px, 80px, 0); }
+            100% { clip: rect(49px, 9999px, 31px, 0); }
+        }
+
+        /* Card Hover Tilt */
+        .cyber-card {
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, border-color 0.4s ease;
+            background: linear-gradient(135deg, rgba(12, 15, 29, 0.9) 0%, rgba(20, 27, 45, 0.7) 100%);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+        }
+        .cyber-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: #00f0ff;
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.25);
+        }
+
+        .cyber-card-magenta:hover {
+            border-color: #ff007f;
+            box-shadow: 0 0 25px rgba(255, 0, 127, 0.25);
+        }
+
+        /* Scanline Overlay */
+        .scanlines {
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0.3));
+            background-size: 100% 4px;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            z-index: 999;
+            opacity: 0.15;
+        }
+
+        .neon-border {
+            position: relative;
+        }
+        .neon-border::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #00f0ff, #ff007f);
+        }
+    </style>
+</head>
+<body class="selection:bg-cyber-cyan selection:text-black">
+
+    <!-- Scanline effect for anime/cyberpunk atmosphere -->
+    <div class="scanlines"></div>
+    
+    <!-- Matrix Code Background -->
+    <canvas id="matrix-canvas"></canvas>
+
+    <!-- Navigation Header -->
+    <header class="fixed top-0 left-0 w-full z-50 bg-cyber-bg/80 backdrop-blur-md border-b border-cyber-border">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="#" class="font-mono text-xl font-bold tracking-wider text-cyber-cyan flex items-center gap-2">
+                <span class="text-cyber-magenta">&gt;</span>SAGAR<span class="text-cyber-cyan animate-pulse">_</span>
+            </a>
+            
+            <nav class="hidden md:flex items-center gap-8 font-mono text-sm">
+                <a href="#about" class="text-gray-400 hover:text-cyber-cyan transition-colors">01. // ABOUT</a>
+                <a href="#skills" class="text-gray-400 hover:text-cyber-cyan transition-colors">02. // SKILLS</a>
+                <a href="#projects" class="text-gray-400 hover:text-cyber-cyan transition-colors">03. // PROJECTS</a>
+                <a href="#contact" class="text-gray-400 hover:text-cyber-cyan transition-colors">04. // TERMINAL</a>
+            </nav>
+
+            <div class="flex items-center gap-4">
+                <a href="#contact" class="hidden sm:inline-block px-4 py-2 font-mono text-xs uppercase font-bold tracking-widest text-cyber-cyan border border-cyber-cyan hover:bg-cyber-cyan hover:text-black transition-all shadow-neon-cyan rounded">
+                    Initialize Contact
+                </a>
+                <button id="mobile-menu-btn" class="md:hidden text-cyber-cyan text-xl focus:outline-none">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-cyber-card border-b border-cyber-border px-6 py-4 flex flex-col gap-4 font-mono text-sm">
+            <a href="#about" class="text-gray-300 hover:text-cyber-cyan">01. // ABOUT</a>
+            <a href="#skills" class="text-gray-300 hover:text-cyber-cyan">02. // SKILLS</a>
+            <a href="#projects" class="text-gray-300 hover:text-cyber-cyan">03. // PROJECTS</a>
+            <a href="#contact" class="text-gray-300 hover:text-cyber-cyan">04. // TERMINAL</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center pt-20 px-6">
+        <div class="max-w-4xl mx-auto text-center z-10">
+            <div class="inline-flex items-center gap-2 px-3 py-1 mb-6 rounded-full bg-cyber-card border border-cyber-border text-xs font-mono text-cyber-magenta">
+                <span class="w-2 h-2 rounded-full bg-cyber-magenta animate-ping"></span>
+                SYSTEM STATUS: ONLINE // NHCE AI-ML 3RD YEAR
+            </div>
+            
+            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight mb-4 uppercase">
+                HI, I'M <span class="glitch text-cyber-cyan" data-text="SAGAR GOWDA H">SAGAR GOWDA H</span>
+            </h1>
+            
+            <div class="h-12 flex items-center justify-center mb-8">
+                <p class="font-mono text-lg sm:text-xl text-gray-300">
+                    <span id="typed-text" class="text-cyber-magenta font-bold"></span><span class="animate-pulse text-cyber-cyan">|</span>
+                </p>
+            </div>
+
+            <p class="text-gray-400 max-w-2xl mx-auto mb-10 text-sm sm:text-base leading-relaxed font-sans">
+                Undergraduate AIML Engineer at <strong class="text-cyber-cyan">New Horizon College of Engineering</strong>. Crafting next-generation AI architectures, secure LLM guardrails, and vector search engines.
+            </p>
+
+            <div class="flex flex-wrap justify-center gap-4 font-mono">
+                <a href="#projects" class="px-8 py-3 bg-cyber-cyan text-black font-bold tracking-wider hover:bg-white transition-all shadow-neon-cyan rounded flex items-center gap-2">
+                    <i class="fas fa-terminal"></i> EXPLORE NEURAL NETS
+                </a>
+                <a href="#contact" class="px-8 py-3 bg-transparent border border-cyber-magenta text-cyber-magenta font-bold tracking-wider hover:bg-cyber-magenta hover:text-black transition-all shadow-neon-magenta rounded flex items-center gap-2">
+                    <i class="fas fa-satellite-dish"></i> TRANSMIT SIGNAL
+                </a>
+            </div>
+        </div>
+        
+        <!-- Background decorative ambient grid -->
+        <div class="absolute inset-0 bg-[radial-gradient(#1e294b_1px,transparent_1px)] [background-size:24px_24px] opacity-30 -z-10"></div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 px-6 relative">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex items-center gap-4 mb-12">
+                <span class="font-mono text-cyber-cyan text-xl">01.</span>
+                <h2 class="text-3xl sm:text-4xl font-black tracking-wider uppercase">ABOUT <span class="text-cyber-magenta">OPERATOR</span></h2>
+                <div class="flex-1 h-px bg-cyber-border ml-4"></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="cyber-card p-8 rounded-xl relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 p-4 font-mono text-xs text-cyber-cyan opacity-40 group-hover:opacity-100 transition-opacity">
+                        [NHCE_AIML_ID: #03]
+                    </div>
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-16 h-16 rounded-lg bg-cyber-cyan/10 border border-cyber-cyan flex items-center justify-center text-cyber-cyan text-2xl shadow-neon-cyan">
+                            <i class="fas fa-microchip"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold font-mono">SAGAR GOWDA H</h3>
+                            <p class="text-sm text-cyber-magenta font-mono">AI & Machine Learning Specialist</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 text-sm leading-relaxed mb-4">
+                        Immersed in artificial intelligence engineering at New Horizon College of Engineering. My core focus lies in dissecting deep learning workflows, creating robust security defenses for Large Language Models, and designing self-contained RAG frameworks from scratch without heavy wrapper abstractions.
+                    </p>
+                    <div class="grid grid-cols-2 gap-4 pt-4 border-t border-cyber-border font-mono text-xs">
+                        <div>
+                            <span class="text-gray-500 block">INSTITUTION:</span>
+                            <span class="text-cyber-cyan">New Horizon College of Eng.</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500 block">YEAR:</span>
+                            <span class="text-cyber-cyan">3rd Year (AIML)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="cyber-card p-6 rounded-xl border-l-4 border-l-cyber-cyan">
+                        <h4 class="font-mono text-cyber-cyan font-bold mb-2 flex items-center gap-2">
+                            <i class="fas fa-shield-alt"></i> DEFENSE & SECURITY
+                        </h4>
+                        <p class="text-gray-400 text-sm">
+                            Building rigorous security checkpoints like GuardRail AI to combat prompt injection and heuristic vulnerabilities in modern generative AI deployments.
+                        </p>
+                    </div>
+
+                    <div class="cyber-card p-6 rounded-xl border-l-4 border-l-cyber-magenta cyber-card-magenta">
+                        <h4 class="font-mono text-cyber-magenta font-bold mb-2 flex items-center gap-2">
+                            <i class="fas fa-database"></i> RETRIEVAL & VECTOR ARCHITECTURES
+                        </h4>
+                        <p class="text-gray-400 text-sm">
+                            Developing native Retrieval-Augmented Generation pipelines powered by FAISS and local transformer models for low-latency, context-grounded outputs.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-24 px-6 relative bg-cyber-card/30">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex items-center gap-4 mb-12">
+                <span class="font-mono text-cyber-cyan text-xl">02.</span>
+                <h2 class="text-3xl sm:text-4xl font-black tracking-wider uppercase">SKILL <span class="text-cyber-cyan">MATRIX</span></h2>
+                <div class="flex-1 h-px bg-cyber-border ml-4"></div>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Skill 1 -->
+                <div class="cyber-card p-6 rounded-xl text-center group cursor-pointer">
+                    <div class="text-4xl text-cyber-cyan mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fab fa-python"></i>
+                    </div>
+                    <h3 class="font-mono font-bold text-lg mb-1">Python</h3>
+                    <p class="text-xs text-gray-400 font-mono">Core Language / Scripting</p>
+                    <div class="mt-4 w-full bg-cyber-border h-1.5 rounded-full overflow-hidden">
+                        <div class="bg-cyber-cyan h-full w-[95%]"></div>
+                    </div>
+                </div>
+
+                <!-- Skill 2 -->
+                <div class="cyber-card p-6 rounded-xl text-center group cursor-pointer cyber-card-magenta">
+                    <div class="text-4xl text-cyber-magenta mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="font-mono font-bold text-lg mb-1">Machine Learning</h3>
+                    <p class="text-xs text-gray-400 font-mono">Scikit-Learn / Predictive Models</p>
+                    <div class="mt-4 w-full bg-cyber-border h-1.5 rounded-full overflow-hidden">
+                        <div class="bg-cyber-magenta h-full w-[90%]"></div>
+                    </div>
+                </div>
+
+                <!-- Skill 3 -->
+                <div class="cyber-card p-6 rounded-xl text-center group cursor-pointer">
+                    <div class="text-4xl text-cyber-purple mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <h3 class="font-mono font-bold text-lg mb-1">Deep Learning</h3>
+                    <p class="text-xs text-gray-400 font-mono">Neural Networks & Fine-tuning</p>
+                    <div class="mt-4 w-full bg-cyber-border h-1.5 rounded-full overflow-hidden">
+                        <div class="bg-cyber-purple h-full w-[88%]"></div>
+                    </div>
+                </div>
+
+                <!-- Skill 4 -->
+                <div class="cyber-card p-6 rounded-xl text-center group cursor-pointer cyber-card-magenta">
+                    <div class="text-4xl text-cyber-cyan mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-cube"></i>
+                    </div>
+                    <h3 class="font-mono font-bold text-lg mb-1">TensorFlow</h3>
+                    <p class="text-xs text-gray-400 font-mono">Model Training & Deployment</p>
+                    <div class="mt-4 w-full bg-cyber-border h-1.5 rounded-full overflow-hidden">
+                        <div class="bg-cyber-cyan h-full w-[85%]"></div>
+                    </div>
+                </div>
+
+                <!-- Skill 5 -->
+                <div class="cyber-card p-6 rounded-xl text-center group cursor-pointer">
+                    <div class="text-4xl text-yellow-400 mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fab fa-aws"></i>
+                    </div>
+                    <h3 class="font-mono font-bold text-lg mb-1">AWS Cloud</h3>
+                    <p class="text-xs text-gray-400 font-mono">Cloud Infrastructure & Services</p>
+                    <div class="mt-4 w-full bg-cyber-border h-1.5 rounded-full overflow-hidden">
+                        <div class="bg-yellow-400 h-full w-[80%]"></div>
+                    </div>
+                </div>
+
+                <!-- Skill 6 -->
+                <div class="cyber-card p-6 rounded-xl text-center group cursor-pointer cyber-card-magenta">
+                    <div class="text-4xl text-cyber-magenta mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-search-dollar"></i>
+                    </div>
+                    <h3 class="font-mono font-bold text-lg mb-1">FAISS & Search</h3>
+                    <p class="text-xs text-gray-400 font-mono">Vector Indices & Embeddings</p>
+                    <div class="mt-4 w-full bg-cyber-border h-1.5 rounded-full overflow-hidden">
+                        <div class="bg-cyber-magenta h-full w-[92%]"></div>
+                    </div>
+                </div>
+
+                <!-- Skill 7 -->
+                <div class="cyber-card p-6 rounded-xl text-center group cursor-pointer">
+                    <div class="text-4xl text-cyber-cyan mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3 class="font-mono font-bold text-lg mb-1">LLMs & RAG</h3>
+                    <p class="text-xs text-gray-400 font-mono">Transformers & Prompt Engineering</p>
+                    <div class="mt-4 w-full bg-cyber-border h-1.5 rounded-full overflow-hidden">
+                        <div class="bg-cyber-cyan h-full w-[94%]"></div>
+                    </div>
+                </div>
+
+                <!-- Skill 8 -->
+                <div class="cyber-card p-6 rounded-xl text-center group cursor-pointer cyber-card-magenta">
+                    <div class="text-4xl text-cyber-purple mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-code-branch"></i>
+                    </div>
+                    <h3 class="font-mono font-bold text-lg mb-1">Git & Systems</h3>
+                    <p class="text-xs text-gray-400 font-mono">Version Control & Linux</p>
+                    <div class="mt-4 w-full bg-cyber-border h-1.5 rounded-full overflow-hidden">
+                        <div class="bg-cyber-purple h-full w-[89%]"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-24 px-6 relative">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex items-center gap-4 mb-12">
+                <span class="font-mono text-cyber-cyan text-xl">03.</span>
+                <h2 class="text-3xl sm:text-4xl font-black tracking-wider uppercase">FEATURED <span class="text-cyber-magenta">PROJECTS</span></h2>
+                <div class="flex-1 h-px bg-cyber-border ml-4"></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <!-- Project 1: GuardRail AI -->
+                <div class="cyber-card rounded-xl overflow-hidden flex flex-col justify-between group">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="px-3 py-1 bg-cyber-cyan/10 text-cyber-cyan font-mono text-xs border border-cyber-cyan/30 rounded">
+                                Security / LLM Defense
+                            </span>
+                            <span class="font-mono text-xs text-gray-500">PROJ_01</span>
+                        </div>
+                        <h3 class="text-xl font-bold font-mono mb-3 group-hover:text-cyber-cyan transition-colors">
+                            GuardRail AI
+                        </h3>
+                        <p class="text-gray-300 text-sm leading-relaxed mb-6">
+                            A multi-layered prompt injection detection and defense framework developed to protect LLMs. Combines rule-based checks, heuristic filters, fine-tuned DistilBERT semantic analysis, and a decision fusion engine.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-6 font-mono text-xs">
+                            <span class="px-2 py-1 bg-cyber-border text-cyber-cyan rounded">Python</span>
+                            <span class="px-2 py-1 bg-cyber-border text-cyber-cyan rounded">DistilBERT</span>
+                            <span class="px-2 py-1 bg-cyber-border text-cyber-cyan rounded">LLM Security</span>
+                        </div>
+                    </div>
+                    <div class="px-6 py-4 bg-cyber-bg/50 border-t border-cyber-border flex justify-between items-center">
+                        <a href="https://github.com/SagarCodes03/multi-layer-prompt-detection" target="_blank" class="font-mono text-xs text-cyber-cyan hover:underline flex items-center gap-2">
+                            <i class="fab fa-github"></i> VIEW REPOSITORY
+                        </a>
+                        <button onclick="openModal('GuardRail AI', 'A multi-layered prompt injection detection and defense framework developed to enhance the security of LLMs by combining rule-based security mechanisms, heuristic analysis, semantic analysis using a fine-tuned DistilBERT model, and a decision fusion engine.')" class="font-mono text-xs text-cyber-magenta hover:underline flex items-center gap-1">
+                            <i class="fas fa-info-circle"></i> DETAILS
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Project 2: Local RAG PDF Assistant -->
+                <div class="cyber-card rounded-xl overflow-hidden flex flex-col justify-between group cyber-card-magenta">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="px-3 py-1 bg-cyber-magenta/10 text-cyber-magenta font-mono text-xs border border-cyber-magenta/30 rounded">
+                                RAG / NLP / Python
+                            </span>
+                            <span class="font-mono text-xs text-gray-500">PROJ_02</span>
+                        </div>
+                        <h3 class="text-xl font-bold font-mono mb-3 group-hover:text-cyber-magenta transition-colors">
+                            Local RAG PDF Assistant
+                        </h3>
+                        <p class="text-gray-300 text-sm leading-relaxed mb-6">
+                            A Retrieval-Augmented Generation application built completely from scratch using Python, FAISS, Sentence Transformers, and a local Qwen 2.5 model, bypassing high-level frameworks like LangChain.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-6 font-mono text-xs">
+                            <span class="px-2 py-1 bg-cyber-border text-cyber-magenta rounded">FAISS</span>
+                            <span class="px-2 py-1 bg-cyber-border text-cyber-magenta rounded">Qwen 2.5</span>
+                            <span class="px-2 py-1 bg-cyber-border text-cyber-magenta rounded">Embeddings</span>
+                        </div>
+                    </div>
+                    <div class="px-6 py-4 bg-cyber-bg/50 border-t border-cyber-border flex justify-between items-center">
+                        <a href="https://github.com/SagarCodes03/local-rag-pdf-assistant" target="_blank" class="font-mono text-xs text-cyber-cyan hover:underline flex items-center gap-2">
+                            <i class="fab fa-github"></i> VIEW REPOSITORY
+                        </a>
+                        <button onclick="openModal('Local RAG PDF Assistant', 'An application built from scratch to ask natural language questions over PDF documents. Implements core document chunking, embeddings, vector indexing, and semantic vector search without LangChain or LlamaIndex.')" class="font-mono text-xs text-cyber-magenta hover:underline flex items-center gap-1">
+                            <i class="fas fa-info-circle"></i> DETAILS
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Project 3: Finmate -->
+                <div class="cyber-card rounded-xl overflow-hidden flex flex-col justify-between group">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="px-3 py-1 bg-cyber-purple/10 text-cyber-purple font-mono text-xs border border-cyber-purple/30 rounded">
+                                AI Assistant / FinTech
+                            </span>
+                            <span class="font-mono text-xs text-gray-500">PROJ_03 (WIP)</span>
+                        </div>
+                        <h3 class="text-xl font-bold font-mono mb-3 group-hover:text-cyber-purple transition-colors">
+                            Finmate
+                        </h3>
+                        <p class="text-gray-300 text-sm leading-relaxed mb-6">
+                            An intelligent AI teammate designed to assist users with financial data tracking, analysis, and smart budgeting insights. Currently under active development in the cyber workshop.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-6 font-mono text-xs">
+                            <span class="px-2 py-1 bg-cyber-border text-cyber-purple rounded">Python</span>
+                            <span class="px-2 py-1 bg-cyber-border text-cyber-purple rounded">Financial AI</span>
+                            <span class="px-2 py-1 bg-cyber-border text-cyber-purple rounded">In Progress</span>
+                        </div>
+                    </div>
+                    <div class="px-6 py-4 bg-cyber-bg/50 border-t border-cyber-border flex justify-between items-center">
+                        <a href="https://github.com/SagarCodes03/Finmate" target="_blank" class="font-mono text-xs text-cyber-cyan hover:underline flex items-center gap-2">
+                            <i class="fab fa-github"></i> VIEW REPOSITORY
+                        </a>
+                        <button onclick="openModal('Finmate', 'An AI teammate built to assist with financial data tracking and analysis. Designed to parse statements and provide smart interactive advisory insights. Still building.')" class="font-mono text-xs text-cyber-magenta hover:underline flex items-center gap-1">
+                            <i class="fas fa-info-circle"></i> DETAILS
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Terminal / Contact Section -->
+    <section id="contact" class="py-24 px-6 relative bg-cyber-card/30">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex items-center gap-4 mb-12">
+                <span class="font-mono text-cyber-cyan text-xl">04.</span>
+                <h2 class="text-3xl sm:text-4xl font-black tracking-wider uppercase">SECURE <span class="text-cyber-cyan">TERMINAL</span></h2>
+                <div class="flex-1 h-px bg-cyber-border ml-4"></div>
+            </div>
+
+            <div class="cyber-card rounded-xl overflow-hidden border border-cyber-cyan/30">
+                <div class="bg-cyber-bg px-4 py-3 border-b border-cyber-border flex items-center justify-between font-mono text-xs text-gray-400">
+                    <div class="flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-red-500 inline-block"></span>
+                        <span class="w-3 h-3 rounded-full bg-yellow-500 inline-block"></span>
+                        <span class="w-3 h-3 rounded-full bg-green-500 inline-block"></span>
+                        <span class="ml-2 text-cyber-cyan">sagar@nhce-aiml:~ transmission_port</span>
+                    </div>
+                    <span>TCP/IP SECURE</span>
+                </div>
+
+                <div class="p-8">
+                    <form id="contact-form" class="space-y-6" onsubmit="handleFormSubmit(event)">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block font-mono text-xs text-cyber-cyan mb-2">OPERATOR_NAME //:</label>
+                                <input type="text" id="sender-name" required class="w-full bg-cyber-bg border border-cyber-border rounded px-4 py-3 text-white font-mono text-sm focus:border-cyber-cyan focus:outline-none transition-colors" placeholder="Enter your name...">
+                            </div>
+                            <div>
+                                <label class="block font-mono text-xs text-cyber-cyan mb-2">SIGNAL_FREQUENCY (EMAIL) //:</label>
+                                <input type="email" id="sender-email" required class="w-full bg-cyber-bg border border-cyber-border rounded px-4 py-3 text-white font-mono text-sm focus:border-cyber-cyan focus:outline-none transition-colors" placeholder="Enter your email...">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block font-mono text-xs text-cyber-cyan mb-2">TRANSMISSION_PAYLOAD //:</label>
+                            <textarea id="sender-message" required rows="5" class="w-full bg-cyber-bg border border-cyber-border rounded px-4 py-3 text-white font-mono text-sm focus:border-cyber-cyan focus:outline-none transition-colors resize-none" placeholder="Type your message here..."></textarea>
+                        </div>
+                        <button type="submit" class="w-full py-4 bg-cyber-cyan text-black font-mono font-bold tracking-wider hover:bg-cyber-magenta hover:text-white transition-all shadow-neon-cyan rounded flex items-center justify-center gap-2">
+                            <i class="fas fa-paper-plane"></i> BROADCAST TRANSMISSION
+                        </button>
+                    </form>
+                    <div id="form-feedback" class="hidden mt-4 p-4 rounded font-mono text-xs text-center border"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Detail Modal -->
+    <div id="project-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-6">
+        <div class="cyber-card max-w-lg w-full p-8 rounded-xl border border-cyber-cyan relative">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-cyber-cyan text-xl">
+                <i class="fas fa-times"></i>
+            </button>
+            <h3 id="modal-title" class="text-2xl font-bold font-mono text-cyber-cyan mb-4"></h3>
+            <p id="modal-desc" class="text-gray-300 text-sm leading-relaxed mb-6"></p>
+            <div class="flex justify-end">
+                <button onclick="closeModal()" class="px-6 py-2 bg-cyber-border text-white font-mono text-xs rounded hover:bg-cyber-cyan hover:text-black transition-colors">
+                    CLOSE MATRIX
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="py-8 bg-cyber-bg border-t border-cyber-border text-center font-mono text-xs text-gray-500">
+        <p>&copy; 2026 SAGAR GOWDA H. ALL RIGHTS RESERVED.</p>
+        <p class="mt-2 text-cyber-cyan">NEW HORIZON COLLEGE OF ENGINEERING // AI & ML</p>
+    </footer>
+
+    <!-- JavaScript for Animations, Canvas & Interactivity -->
+    <script>
+        
+        // Matrix Rain Canvas Effect
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
+        const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*+=-<>[]{}';
+        const alphabet = katakana + latin;
+
+        const fontSize = 16;
+        let columns = Math.floor(canvas.width / fontSize);
+        const rainDrops = [];
+
+        for (let x = 0; x < columns; x++) {
+            rainDrops[x] = 1;
+        }
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(5, 5, 10, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#00f0ff';
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < rainDrops.length; i++) {
+                const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+
+                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    rainDrops[i] = 0;
+                }
+                rainDrops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 30);
+
+        // Typing Effect in Hero Section
+        const words = [
+            "AIML 3rd Year Engineer @ NHCE",
+            "Specializing in AWS, Python, DL & ML",
+            "Creator of GuardRail AI & Local RAG",
+            "Building Secure LLM Frameworks"
+        ];
+        let i = 0;
+        let timer;
+
+        function typingEffect() {
+            let word = words[i].split("");
+            var loopTyping = function() {
+                if (word.length > 0) {
+                    document.getElementById('typed-text').innerHTML += word.shift();
+                } else {
+                    setTimeout(deletingEffect, 2000);
+                    return false;
+                }
+                timer = setTimeout(loopTyping, 70);
+            };
+            loopTyping();
+        }
+
+        function deletingEffect() {
+            let word = words[i].split("");
+            var loopDeleting = function() {
+                if (word.length > 0) {
+                    word.pop();
+                    document.getElementById('typed-text').innerHTML = word.join("");
+                } else {
+                    if (words.length > (i + 1)) {
+                        i++;
+                    } else {
+                        i = 0;
+                    }
+                    setTimeout(typingEffect, 500);
+                    return false;
+                }
+                timer = setTimeout(loopDeleting, 40);
+            };
+            loopDeleting();
+        }
+        typingEffect();
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Modal Logic
+        function openModal(title, desc) {
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-desc').innerText = desc;
+            document.getElementById('project-modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('project-modal').classList.add('hidden');
+        }
+
+        // Form Submit Simulation
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('sender-name').value;
+            const feedback = document.getElementById('form-feedback');
+            
+            feedback.classList.remove('hidden');
+            feedback.className = "mt-4 p-4 rounded font-mono text-xs text-center border bg-cyber-cyan/10 border-cyber-cyan text-cyber-cyan";
+            feedback.innerHTML = `<i class="fas fa-check-circle"></i> TRANSMISSION SUCCESSFUL! Thank you, ${name}. Your message has been routed to Sagar's terminal.`;
+            
+            document.getElementById('contact-form').reset();
+            setTimeout(() => {
+                feedback.classList.add('hidden');
+            }, 6000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+services:
+  student-management-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: acadex_sms_app
+    ports:
+      - "8000:8000"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8000
+    volumes:
+      # Optional: persist database on host if desired
+      - ./data:/app/data
+    restart: unless-stopped
+

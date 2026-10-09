@@ -1,0 +1,542 @@
+{
+  "info": {
+    "_postman_id": "c1f7a490-4820-4a8b-a7e8-e7a91bbd8d01",
+    "name": "Student Management System API",
+    "description": "Comprehensive REST API collection for Student Management System with Student & Teacher roles, Attendance, Marks, Behavioral Feedback, and MLOps/DL Notes.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8000",
+      "type": "string"
+    },
+    {
+      "key": "student_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "teacher_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "student_id",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "subject_id",
+      "value": "1",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "01 - Authentication",
+      "item": [
+        {
+          "name": "Login as Student (Aarav)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.access_token) {",
+                  "    pm.collectionVariables.set('student_token', jsonData.access_token);",
+                  "    pm.environment.set('student_token', jsonData.access_token);",
+                  "    console.log('Saved student_token to variables');",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"student_aarav\",\n  \"password\": \"student123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "login"]
+            },
+            "description": "Logs in as a Student (Aarav Patel) and automatically extracts the JWT token into {{student_token}}."
+          }
+        },
+        {
+          "name": "Login as Teacher (Dr. Priya)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.access_token) {",
+                  "    pm.collectionVariables.set('teacher_token', jsonData.access_token);",
+                  "    pm.environment.set('teacher_token', jsonData.access_token);",
+                  "    console.log('Saved teacher_token to variables');",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"teacher_priya\",\n  \"password\": \"teacher123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "login"]
+            },
+            "description": "Logs in as a Teacher (Dr. Priya Sharma) and automatically extracts the JWT token into {{teacher_token}}."
+          }
+        },
+        {
+          "name": "Get Current User Profile (/me)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{student_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/auth/me",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "me"]
+            }
+          }
+        },
+        {
+          "name": "Get Demo Accounts List",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/auth/demo-accounts",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "demo-accounts"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 - Student Portal",
+      "item": [
+        {
+          "name": "Get Student Dashboard Summary",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{student_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/student/dashboard",
+              "host": ["{{base_url}}"],
+              "path": ["api", "student", "dashboard"]
+            },
+            "description": "Returns complete profile summary, overall attendance %, GPA, subject-wise attendance, marks, and faculty feedback."
+          }
+        },
+        {
+          "name": "Get Student Attendance Records",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{student_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/student/attendance",
+              "host": ["{{base_url}}"],
+              "path": ["api", "student", "attendance"]
+            }
+          }
+        },
+        {
+          "name": "Get Student Marks & Grades",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{student_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/student/marks",
+              "host": ["{{base_url}}"],
+              "path": ["api", "student", "marks"]
+            }
+          }
+        },
+        {
+          "name": "Get Teacher Feedback & Suggestions",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{student_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/student/feedback",
+              "host": ["{{base_url}}"],
+              "path": ["api", "student", "feedback"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 - Subject Notes (MLOps & DL)",
+      "item": [
+        {
+          "name": "Get All Subject Notes",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{student_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/notes",
+              "host": ["{{base_url}}"],
+              "path": ["api", "notes"]
+            }
+          }
+        },
+        {
+          "name": "Get Notes - MLOps Subject Filter",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{student_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/notes?subject=MLOps",
+              "host": ["{{base_url}}"],
+              "path": ["api", "notes"],
+              "query": [
+                {
+                  "key": "subject",
+                  "value": "MLOps"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Notes - Deep Learning Subject Filter",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{student_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/notes?subject=Deep Learning",
+              "host": ["{{base_url}}"],
+              "path": ["api", "notes"],
+              "query": [
+                {
+                  "key": "subject",
+                  "value": "Deep Learning"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Single Note by ID",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{student_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/notes/1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "notes", "1"]
+            }
+          }
+        },
+        {
+          "name": "Create Subject Note (Teacher Only)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{teacher_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"subject_name\": \"MLOps\",\n  \"title\": \"Unit 4: Model Monitoring and Concept Drift\",\n  \"unit\": \"Unit 4: Production Observability\",\n  \"summary\": \"Techniques to detect statistical covariate shift and concept drift using Evidently AI and Kolmogorov-Smirnov testing.\",\n  \"content_markdown\": \"# Model Drift Monitoring\\n\\n### 1. Data Drift vs Concept Drift\\n- **Data Drift**: Shift in P(X)\\n- **Concept Drift**: Shift in P(Y|X)\\n\\nUse statistical tests like KS-Test or Wasserstein Distance.\",\n  \"resource_url\": \"https://evidentlyai.com\",\n  \"tags\": \"Monitoring, Drift, Evidently, Prometheus\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/notes",
+              "host": ["{{base_url}}"],
+              "path": ["api", "notes"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "04 - Teacher Portal",
+      "item": [
+        {
+          "name": "Get All Students Roster",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{teacher_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/teacher/students",
+              "host": ["{{base_url}}"],
+              "path": ["api", "teacher", "students"]
+            }
+          }
+        },
+        {
+          "name": "Get Specific Student Details",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{teacher_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/teacher/students/{{student_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "teacher", "students", "{{student_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Update Student Attendance",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{teacher_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"total_classes\": 44,\n  \"attended_classes\": 41\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/teacher/students/{{student_id}}/attendance/{{subject_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "teacher", "students", "{{student_id}}", "attendance", "{{subject_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Update Student Marks",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{teacher_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"midterm_score\": 28.5,\n  \"assignment_score\": 19.0,\n  \"lab_score\": 19.5,\n  \"final_score\": 28.0\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/teacher/students/{{student_id}}/marks/{{subject_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "teacher", "students", "{{student_id}}", "marks", "{{subject_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Add Student Feedback & Behavior Remark",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{teacher_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"subject\": \"Machine Learning Operations (MLOps)\",\n  \"category\": \"Behavior & Conduct\",\n  \"feedback_text\": \"Shows outstanding attention to detail during production ML deployment tests. Helpful peer mentor in lab hours.\",\n  \"behavior_tag\": \"Strong Analytical Thinking\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/teacher/students/{{student_id}}/feedback",
+              "host": ["{{base_url}}"],
+              "path": ["api", "teacher", "students", "{{student_id}}", "feedback"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "05 - System Health",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": ["{{base_url}}"],
+              "path": ["health"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
+
